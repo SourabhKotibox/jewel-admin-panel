@@ -4,10 +4,9 @@ import { Send, MessageCircle } from "lucide-react";
 import { api, getToken } from "../api/client";
 import notify from "../utils/toast";
 
-const SOCKET_URL = (import.meta.env.VITE_API_URL || "http://localhost:5001/api").replace(
-  /\/api\/?$/,
-  ""
-);
+const SOCKET_URL =
+  (import.meta.env.VITE_API_URL || "http://localhost:5001/api").replace(/\/api\/?$/, "") ||
+  undefined;
 
 export default function OrderChat({
   orderNumber,
