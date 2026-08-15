@@ -13,7 +13,7 @@ export default function RequireAuth({ children }) {
     return <Navigate to="/admin/login" state={{ from: location }} replace />;
   }
 
-  if (!canSeePath(user.role, location.pathname)) {
+  if (!canSeePath(user.role, location.pathname.replace(/^\/jewel/, "") || "/")) {
     return <Navigate to="/admin" replace />;
   }
 

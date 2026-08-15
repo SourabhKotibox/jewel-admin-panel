@@ -43,7 +43,7 @@ export default function ImageFieldInput({
         name: file.name,
         portal: "admin",
       });
-      const url = res.url || res.absoluteUrl;
+      const url = res.absoluteUrl || res.url;
       if (!url) throw new Error("Upload succeeded but no URL returned");
       onChange(url);
     } catch (err) {
@@ -170,15 +170,15 @@ export function MultiImageFieldInput({
     setUploading(true);
     try {
       const urls = [];
-      for (const file of files) {
-        const res = await uploadFile(file, {
-          used: `${used}:${fieldKey || label}`,
-          name: file.name,
-          portal: "admin",
-        });
-        const url = res.url || res.absoluteUrl;
-        if (url) urls.push(url);
-      }
+        for (const file of files) {
+          const res = await uploadFile(file, {
+            used: `${used}:${fieldKey || label}`,
+            name: file.name,
+            portal: "admin",
+          });
+          const url = res.absoluteUrl || res.url;
+          if (url) urls.push(url);
+        }
       if (!urls.length) throw new Error("Upload succeeded but no URL returned");
       onChange([...lines, ...urls].join("\n"));
     } catch (err) {

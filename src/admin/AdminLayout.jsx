@@ -59,6 +59,7 @@ const navGroups = [
       { to: "/admin/products", label: "Products", icon: Package },
       { to: "/admin/market-rates", label: "Market Rates", icon: Gem },
       { to: "/admin/categories", label: "Categories", icon: Tags },
+      { to: "/admin/jewelry-types", label: "Jewellery Types", icon: Type },
       { to: "/admin/attributes", label: "Attributes", icon: Layers },
       { to: "/admin/inventory", label: "Inventory", icon: Boxes },
     ],
@@ -127,6 +128,7 @@ const pageTitles = {
   "/admin/order-support": "Order Chat & Returns",
   "/admin/returns": "Order Chat & Returns",
   "/admin/categories": "Categories",
+  "/admin/jewelry-types": "Jewellery Types",
   "/admin/customers": "Customers",
   "/admin/stores": "Stores",
   "/admin/testimonials": "Testimonials",
@@ -159,6 +161,7 @@ const pageTitles = {
 
 function SidebarNav({ onNavigate, role }) {
   const location = useLocation();
+  const path = location.pathname.replace(/^\/jewel/, "") || "/";
   const [openGroups, setOpenGroups] = useState(() =>
     navGroups.reduce((acc, g) => {
       if (g.label) acc[g.label] = true;
@@ -197,8 +200,8 @@ function SidebarNav({ onNavigate, role }) {
             <div className="space-y-0.5">
               {group.items.map(({ to, label, icon: Icon, end }) => {
                 const active = end
-                  ? location.pathname === to
-                  : location.pathname === to || location.pathname.startsWith(to + "/");
+                  ? path === to
+                  : path === to || path.startsWith(to + "/");
                 return (
                   <NavLink
                     key={to}
@@ -235,12 +238,13 @@ export default function AdminLayout() {
   const adminLogoH = business.adminLogoHeight || 48;
 
   const title = (() => {
-    if (pageTitles[location.pathname]) return pageTitles[location.pathname];
-    if (location.pathname.startsWith("/admin/products/")) return "Edit Product";
-    if (location.pathname.match(/^\/admin\/orders\/[^/]+\/edit$/)) return "Edit Order";
-    if (location.pathname === "/admin/orders/new") return "New Order";
-    if (location.pathname.startsWith("/admin/orders/")) return "Order Detail";
-    const editMatch = location.pathname.match(/^\/admin\/([^/]+)\/(new|[^/]+)$/);
+    const rawPath = location.pathname.replace(/^\/jewel/, "") || "/";
+    if (pageTitles[rawPath]) return pageTitles[rawPath];
+    if (rawPath.startsWith("/admin/products/")) return "Edit Product";
+    if (rawPath.match(/^\/admin\/orders\/[^/]+\/edit$/)) return "Edit Order";
+    if (rawPath === "/admin/orders/new") return "New Order";
+    if (rawPath.startsWith("/admin/orders/")) return "Order Detail";
+    const editMatch = rawPath.match(/^\/admin\/([^/]+)\/(new|[^/]+)$/);
     if (editMatch) {
       const key = editMatch[1];
       const label = pageTitles[`/admin/${key}`] || key;
@@ -337,7 +341,7 @@ export default function AdminLayout() {
                   <X size={22} />
                 </button>
               </div>
-              <SidebarNav role={authUser?.role || "editor"} onNavigate={() => setMobileOpen(false)} />
+               <SidebarNav role={authUser?.role || "editor"} />
             </motion.aside>
           </>
         )}

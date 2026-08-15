@@ -93,6 +93,7 @@ export const ENTITY_API = {
   media: "/media",
   orders: "/orders",
   products: "/products",
+  "jewelry-types": "/jewelry-types",
 };
 
 export { API_URL, ORIGIN };

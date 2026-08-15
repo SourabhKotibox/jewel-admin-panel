@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ChevronRight } from "lucide-react";
 import { useState } from "react";
@@ -7,6 +7,7 @@ import logo from "../../assets/images/logo.png";
 
 export default function MobileMenu({ open, onClose }) {
   const [expanded, setExpanded] = useState(null);
+  const navigate = useNavigate();
 
   return (
     <AnimatePresence>
@@ -37,7 +38,7 @@ export default function MobileMenu({ open, onClose }) {
                     className="w-full flex items-center justify-between py-4 text-sm uppercase tracking-wide"
                     onClick={() =>
                       menu.direct
-                        ? (window.location.href = menu.slug)
+                        ? navigate(menu.slug)
                         : setExpanded(expanded === menu.label ? null : menu.label)
                     }
                   >

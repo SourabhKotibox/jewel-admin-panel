@@ -63,6 +63,7 @@ import {
   StaticPages,
   AdminUsers,
 } from "./admin/pages/BagistoPages";
+import JewelryTypes from "./admin/pages/JewelryTypes";
 
 const entityFormRoutes = [
   "inventory",
@@ -87,6 +88,7 @@ const entityFormRoutes = [
   "stores",
   "testimonials",
   "media",
+  "jewelry-types",
 ];
 
 function StorefrontLayout() {
@@ -120,6 +122,7 @@ function App() {
         <Route path="products/:id" element={<ProductForm />} />
         <Route path="market-rates" element={<MarketRates />} />
         <Route path="categories" element={<Categories />} />
+        <Route path="jewelry-types" element={<JewelryTypes />} />
         <Route path="attributes" element={<Attributes />} />
         <Route path="inventory" element={<Inventory />} />
         <Route path="orders" element={<Orders />} />

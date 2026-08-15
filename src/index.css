@@ -74,6 +74,16 @@ body {
   }
 }
 
+@layer utilities {
+  .scrollbar-none {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 /* Shimmer skeleton for image loading */
 .shimmer-bg {
   background: linear-gradient(90deg, #F0EDE7 25%, #FBF8F3 50%, #F0EDE7 75%);

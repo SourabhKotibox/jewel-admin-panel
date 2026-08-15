@@ -17,7 +17,15 @@ import RichTextEditor from "../components/RichTextEditor";
 
 function buildEmpty(fields) {
   return fields.reduce((acc, f) => {
-    acc[f.key] = f.type === "checkbox" ? false : f.type === "number" ? 0 : f.options?.[0] || "";
+    if (f.type === "checkbox") {
+      acc[f.key] = false;
+    } else if (f.type === "number") {
+      acc[f.key] = 0;
+    } else if (f.options && f.options.length) {
+      acc[f.key] = f.options[0];
+    } else {
+      acc[f.key] = "";
+    }
     return acc;
   }, {});
 }
@@ -54,6 +62,7 @@ export default function EntityFormPage({ entityKey: entityKeyProp }) {
   const [sendMsg, setSendMsg] = useState("");
   const [error, setError] = useState("");
   const [ready, setReady] = useState(isNew || !!existing);
+  const [dynamicOptions, setDynamicOptions] = useState({});
 
   useEffect(() => {
     let cancelled = false;
@@ -74,6 +83,41 @@ export default function EntityFormPage({ entityKey: entityKeyProp }) {
       cancelled = true;
     };
   }, [entityKey, id, isNew, fetchEntity, cfg, empty]);
+
+  useEffect(() => {
+    let cancelled = false;
+    const fieldsWithApi = (cfg?.fields || []).filter((f) => f.optionsApi);
+    if (!fieldsWithApi.length) return;
+
+    (async () => {
+      const results = await Promise.all(
+        fieldsWithApi.map(async (f) => {
+          try {
+            const data = await api(f.optionsApi, { portal: "admin" });
+            const items = Array.isArray(data) ? data : [];
+            const mapped = items.map((item) => ({
+              value: f.optionsValue
+                ? String(item[f.optionsValue])
+                : String(item.slug || item.code || item.id || item._id || ""),
+              label: f.optionsLabel
+                ? String(item[f.optionsLabel])
+                : String(item.name || item.title || item.label || item.code || ""),
+            })).filter((o) => o.value && o.label);
+            return [f.key, mapped];
+          } catch {
+            return [f.key, []];
+          }
+        })
+      );
+      if (!cancelled) {
+        setDynamicOptions(Object.fromEntries(results));
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [cfg]);
 
   if (!cfg) {
     return (
@@ -200,19 +244,23 @@ export default function EntityFormPage({ entityKey: entityKeyProp }) {
                     value={form[f.key] ?? ""}
                     onChange={(e) => setForm({ ...form, [f.key]: e.target.value })}
                   />
-                ) : f.type === "select" ? (
-                  <select
-                    className={fieldClass}
-                    value={form[f.key] ?? ""}
-                    onChange={(e) => setForm({ ...form, [f.key]: e.target.value })}
-                  >
-                    {(f.options || []).map((o) => (
-                      <option key={o} value={o}>
-                        {o}
-                      </option>
-                    ))}
-                  </select>
-                ) : f.type === "checkbox" ? (
+                 ) : f.type === "select" ? (
+                   <select
+                     className={fieldClass}
+                     value={form[f.key] ?? ""}
+                     onChange={(e) => setForm({ ...form, [f.key]: e.target.value })}
+                   >
+                     {(dynamicOptions[f.key] || f.options || []).map((o) => {
+                       const val = typeof o === "object" ? o.value : o;
+                       const lbl = typeof o === "object" ? o.label : o;
+                       return (
+                         <option key={val} value={val}>
+                           {lbl}
+                         </option>
+                       );
+                     })}
+                   </select>
+                 ) : f.type === "checkbox" ? (
                   <label className="flex items-center gap-2 text-sm mt-2 cursor-pointer">
                     <input
                       type="checkbox"

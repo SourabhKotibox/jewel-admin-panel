@@ -155,35 +155,41 @@ function CategoryStrip() {
   if (!categories.length) return null;
   return (
     <section className="container-luxe py-16 md:py-24">
-      <div className="mb-12">
-        <p className="eyebrow mb-2">{c.categoryEyebrow}</p>
-        <h2 className="heading-display text-3xl md:text-4xl text-noir">{c.categoryTitle}</h2>
+      <div className="flex items-baseline justify-between mb-10">
+        <div>
+          <p className="eyebrow mb-2">{c.categoryEyebrow}</p>
+          <h2 className="heading-display text-3xl md:text-4xl text-noir">{c.categoryTitle}</h2>
+        </div>
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-6">
-        {categories.map((category, i) => (
-          <motion.div
-            key={category.slug || category.id}
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: i * 0.08 }}
-          >
-            <Link
-              to={shopPath(category.slug)}
-              className="group block relative overflow-hidden rounded-sm aspect-[3/4]"
+
+      <div className="-mx-4 sm:-mx-6">
+        <div className="flex gap-4 sm:gap-6 overflow-x-auto snap-x snap-mandatory px-4 sm:px-6 pb-4 scrollbar-none">
+          {categories.map((category, i) => (
+            <motion.div
+              key={category.slug || category.id}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: i * 0.08 }}
+              className="flex-shrink-0 w-[220px] sm:w-[260px] snap-start"
             >
-              <img
-                src={category.img}
-                alt={category.name}
-                className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-noir/80 via-noir/10 to-transparent" />
-              <span className="absolute bottom-5 left-0 right-0 text-center text-ivory text-xs md:text-sm uppercase tracking-widest2 font-semibold">
-                {category.name}
-              </span>
-            </Link>
-          </motion.div>
-        ))}
+              <Link
+                to={shopPath(category.slug)}
+                className="group block relative overflow-hidden rounded-sm aspect-[3/4]"
+              >
+                <img
+                  src={category.img}
+                  alt={category.name}
+                  className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-noir/80 via-noir/10 to-transparent" />
+                <span className="absolute bottom-5 left-0 right-0 text-center text-ivory text-xs md:text-sm uppercase tracking-widest2 font-semibold">
+                  {category.name}
+                </span>
+              </Link>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   );

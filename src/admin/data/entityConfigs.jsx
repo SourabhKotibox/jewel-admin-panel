@@ -673,7 +673,9 @@ export const entityConfigs = {
         key: "jewelryType",
         label: "Jewellery type",
         type: "select",
-        options: ["rings", "necklaces", "earrings", "bracelets", "pendants", "accessories", "sets"],
+        optionsApi: "/jewelry-types",
+        optionsLabel: "name",
+        optionsValue: "slug",
       },
       {
         key: "attributeCodes",
@@ -705,6 +707,35 @@ export const entityConfigs = {
       },
       { key: "slug", label: "Slug", hide: "sm", render: (r) => <span className="font-mono text-xs">{r.slug}</span> },
       { key: "productCount", label: "Products", hide: "md" },
+    ],
+  },
+  "jewelry-types": {
+    title: "Jewellery Types",
+    singular: "Jewellery Type",
+    basePath: "/admin/jewelry-types",
+    idPrefix: "jtype",
+    description:
+      "Manage jewellery type values. These appear as selectable options in the Category and Product forms.",
+    seed: [],
+    searchKeys: ["name", "slug"],
+    fields: [
+      { key: "name", label: "Name", required: true },
+      { key: "slug", label: "Slug", required: true },
+      { key: "status", label: "Status", type: "select", options: ["Active", "Draft"] },
+    ],
+    columns: [
+      {
+        key: "name",
+        label: "Name",
+        render: (r) => <span className="font-medium">{r.name}</span>,
+      },
+      {
+        key: "slug",
+        label: "Slug",
+        hide: "sm",
+        render: (r) => <span className="font-mono text-xs">{r.slug}</span>,
+      },
+      { key: "status", label: "Status", badge: true },
     ],
   },
   stores: {

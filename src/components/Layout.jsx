@@ -112,7 +112,7 @@ function AnnouncementBar({ messages }) {
   );
 }
 
-function MegaMenu({ menu, discoverLabel, collectionSuffix }) {
+function MegaMenu({ menu, discoverLabel, collectionSuffix, onClose }) {
   if (!menu?.columns) return null;
 
   return (
@@ -135,6 +135,7 @@ function MegaMenu({ menu, discoverLabel, collectionSuffix }) {
                   <li key={item}>
                     <Link
                       to={shopPath(item)}
+                      onClick={onClose}
                       className="text-sm text-noir/70 hover:text-champagne-dark transition-colors link-underline"
                     >
                       {item}
@@ -145,7 +146,7 @@ function MegaMenu({ menu, discoverLabel, collectionSuffix }) {
             </div>
           ))}
         </div>
-        <Link to={shopPath(menu.slug)} className="relative group overflow-hidden rounded-sm block h-56">
+        <Link to={shopPath(menu.slug)} onClick={onClose} className="relative group overflow-hidden rounded-sm block h-56">
           {menu.featuredImage ? (
             <img
               src={resolveImg(menu.featuredImage)}
@@ -202,14 +203,13 @@ function MobileMenu({ open, onClose, menu }) {
                 <X size={22} />
               </button>
             </div>
-            <div className="p-5 space-y-1">
-              <Link
-                to="/shop"
-                onClick={onClose}
-                className="block py-4 text-sm uppercase tracking-wide border-b border-champagne/10 text-champagne-dark font-medium"
-              >
-                Shop / Filter
-              </Link>
+             <div className="p-5 space-y-1">
+               <Link
+                 to="/shop"
+                 className="block py-4 text-sm uppercase tracking-wide border-b border-champagne/10 text-champagne-dark font-medium"
+               >
+                 Shop / Filter
+               </Link>
               {items.map((m) => (
                 <div key={m.label} className="border-b border-champagne/10">
                   <button
@@ -217,7 +217,7 @@ function MobileMenu({ open, onClose, menu }) {
                     className="w-full flex items-center justify-between py-4 text-sm uppercase tracking-wide"
                     onClick={() =>
                       m.direct
-                        ? (window.location.href = toShopHref(m.slug))
+                        ? navigate(toShopHref(m.slug))
                         : setExpanded(expanded === m.label ? null : m.label)
                     }
                   >
@@ -243,7 +243,6 @@ function MobileMenu({ open, onClose, menu }) {
                               <Link
                                 key={item}
                                 to={shopPath(item)}
-                                onClick={onClose}
                                 className="block text-sm text-noir/70 py-1.5"
                               >
                                 {item}
@@ -637,6 +636,7 @@ export default function Layout({ children }) {
               menu={menu.find((m) => m.label === activeMenu)}
               discoverLabel={layout.megaDiscoverLabel}
               collectionSuffix={layout.megaCollectionSuffix}
+              onClose={() => setActiveMenu(null)}
             />
           )}
         </AnimatePresence>
