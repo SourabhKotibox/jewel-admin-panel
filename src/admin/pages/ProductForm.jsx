@@ -50,6 +50,17 @@ function parseImages(text) {
     .filter(Boolean);
 }
 
+/** Strip http(s)://host prefix so only /uploads/... is stored */
+function toRelative(url) {
+  if (!url) return "";
+  try {
+    const u = new URL(url);
+    return u.pathname;
+  } catch {
+    return url; // already relative
+  }
+}
+
 function attrsToObject(attrs) {
   if (!attrs) return {};
   if (attrs instanceof Map) return Object.fromEntries(attrs);
@@ -174,7 +185,7 @@ export default function ProductForm() {
           categoryId: p.categoryId ? String(p.categoryId) : "",
           jewelryType: p.jewelryType || "",
           description: p.description || "",
-          imagesText: (p.images || []).join("\n"),
+          imagesText: (p.images || []).map(toRelative).filter(Boolean).join("\n"),
           stock: String(p.stock ?? 1),
           status: p.status || "Active",
           isPolki: !!p.isPolki,

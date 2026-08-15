@@ -43,7 +43,7 @@ export default function ImageFieldInput({
         name: file.name,
         portal: "admin",
       });
-      const url = res.absoluteUrl || res.url;
+      const url = res.url || res.absoluteUrl;
       if (!url) throw new Error("Upload succeeded but no URL returned");
       onChange(url);
     } catch (err) {
@@ -176,7 +176,7 @@ export function MultiImageFieldInput({
             name: file.name,
             portal: "admin",
           });
-          const url = res.absoluteUrl || res.url;
+          const url = res.url || res.absoluteUrl;
           if (url) urls.push(url);
         }
       if (!urls.length) throw new Error("Upload succeeded but no URL returned");
