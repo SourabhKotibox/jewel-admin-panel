@@ -11,9 +11,7 @@ import {
 import { IMG, whatsappNumber as fallbackWa } from "../data";
 
 function resolveImg(src, fallback = "") {
-  if (!src) return fallback;
-  if (/^https?:\/\//i.test(src)) return src;
-  return assetUrl(src) || src;
+  return assetUrl(src) || fallback;
 }
 
 function normalizeProduct(p) {

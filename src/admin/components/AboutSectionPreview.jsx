@@ -9,12 +9,6 @@ import {
 
 const ICONS = { ShieldCheck, Award, Heart, Sparkles };
 
-function resolveImg(src) {
-  if (!src) return "";
-  if (/^https?:\/\//i.test(src) || src.startsWith("data:")) return src;
-  return assetUrl(src);
-}
-
 export default function AboutSectionPreview({ groupId, fields = {} }) {
   const [viewport, setViewport] = useState("desktop");
   const cms = fieldsToCmsAbout(fields, defaultAboutSectionLayout);
@@ -67,7 +61,7 @@ function PreviewBody({ groupId, cms, isMobile }) {
         <div className={`relative w-full flex items-center justify-center overflow-hidden bg-noir ${isMobile ? "h-[220px]" : "h-[280px]"}`}>
           {cms.heroImage ? (
             <img
-              src={resolveImg(cms.heroImage)}
+              src={assetUrl(cms.heroImage)}
               alt=""
               className="absolute inset-0 w-full h-full object-cover opacity-50 object-center"
             />
@@ -103,7 +97,7 @@ function PreviewBody({ groupId, cms, isMobile }) {
         <div className={`grid gap-6 p-6 items-center bg-stone-50 ${isMobile ? "grid-cols-1" : "grid-cols-1 md:grid-cols-2"}`}>
           <div className="aspect-[4/5] overflow-hidden rounded-sm bg-stone-200">
             {cms.craftImage ? (
-              <img src={resolveImg(cms.craftImage)} alt="" className="w-full h-full object-cover" />
+              <img src={assetUrl(cms.craftImage)} alt="" className="w-full h-full object-cover" />
             ) : null}
           </div>
           <div>
@@ -123,7 +117,7 @@ function PreviewBody({ groupId, cms, isMobile }) {
           </div>
           <div className={`aspect-[4/5] overflow-hidden rounded-sm bg-stone-100 ${isMobile ? "order-1" : "order-1 md:order-2"}`}>
             {cms.polkiImage ? (
-              <img src={resolveImg(cms.polkiImage)} alt="" className="w-full h-full object-cover" />
+              <img src={assetUrl(cms.polkiImage)} alt="" className="w-full h-full object-cover" />
             ) : null}
           </div>
         </div>

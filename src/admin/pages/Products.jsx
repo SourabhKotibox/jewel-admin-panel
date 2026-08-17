@@ -14,12 +14,6 @@ import {
 import { exportTablePdf, rowsFromObjects } from "../../utils/pdfExport";
 import { api, assetUrl } from "../../api/client";
 
-function resolveImg(src) {
-  if (!src) return "";
-  if (/^https?:\/\//i.test(src) || src.startsWith("data:")) return src;
-  return assetUrl(src);
-}
-
 export default function Products() {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("All");
@@ -161,7 +155,7 @@ export default function Products() {
                          {p.images?.[0] ? (
                            <div className="relative w-12 aspect-[3/4] rounded-sm overflow-hidden bg-stone-100 flex-shrink-0">
                              <img
-                               src={resolveImg(p.images[0])}
+                                src={assetUrl(p.images[0])}
                                alt=""
                                className="w-full h-full object-cover"
                              />
@@ -180,7 +174,7 @@ export default function Products() {
                                  className="w-8 aspect-[3/4] rounded-sm overflow-hidden bg-stone-100"
                                >
                                  <img
-                                   src={resolveImg(src)}
+                                    src={assetUrl(src)}
                                    alt=""
                                    className="w-full h-full object-cover"
                                  />

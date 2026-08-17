@@ -3,12 +3,6 @@ import { Monitor, Smartphone, MapPin, Phone, ArrowRight, Store } from "lucide-re
 import { assetUrl } from "../../api/client";
 import { fieldsToCmsStores, defaultStoresSectionLayout } from "../data/storesCmsFields";
 
-function resolveImg(src) {
-  if (!src) return "";
-  if (/^https?:\/\//i.test(src) || src.startsWith("data:")) return src;
-  return assetUrl(src);
-}
-
 const SAMPLE_STORES = [
   {
     city: "Mumbai",
@@ -34,7 +28,7 @@ export default function StoresSectionPreview({ groupId, fields = {}, stores = []
   const isMobile = viewport === "mobile";
   const previewStores =
     stores.length > 0
-      ? stores.slice(0, 3).map((s) => ({ ...s, img: resolveImg(s.img) }))
+      ? stores.slice(0, 3).map((s) => ({ ...s, img: assetUrl(s.img) }))
       : SAMPLE_STORES;
 
   return (
@@ -89,7 +83,7 @@ function PreviewBody({ groupId, cms, isMobile, stores }) {
         return (
           <div className={`relative w-full flex items-end overflow-hidden bg-noir ${isMobile ? "h-[200px]" : "h-[260px]"}`}>
             <img
-              src={resolveImg(cms.heroImage)}
+              src={assetUrl(cms.heroImage)}
               alt=""
               className="absolute inset-0 w-full h-full object-cover opacity-45"
             />
@@ -162,7 +156,7 @@ function PreviewBody({ groupId, cms, isMobile, stores }) {
         <div className={`grid gap-6 p-6 bg-stone-50 items-center ${isMobile || !cms.ctaImage ? "grid-cols-1" : "grid-cols-1 md:grid-cols-2"}`}>
           {cms.ctaImage ? (
             <div className="aspect-[4/3] overflow-hidden rounded-sm bg-stone-200">
-              <img src={resolveImg(cms.ctaImage)} alt="" className="w-full h-full object-cover" />
+              <img src={assetUrl(cms.ctaImage)} alt="" className="w-full h-full object-cover" />
             </div>
           ) : null}
           <div>

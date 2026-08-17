@@ -6,18 +6,12 @@ import { api, assetUrl } from "../api/client";
 import useCmsPage from "../hooks/useCmsPage";
 import SeoHead from "../components/SeoHead";
 
-function resolveImg(src) {
-  if (!src) return "";
-  if (/^https?:\/\//i.test(src) || src.startsWith("data:")) return src;
-  return assetUrl(src);
-}
-
 function normalize(p) {
   return {
     ...p,
     id: p.sku || p.id || String(p._id),
     slug: p.slug || p.sku,
-    images: (p.images || []).map(resolveImg),
+    images: (p.images || []).map((img) => assetUrl(img)).filter(Boolean),
   };
 }
 

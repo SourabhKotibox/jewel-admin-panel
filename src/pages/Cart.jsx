@@ -6,6 +6,7 @@ import { Trash2, MessageCircle, ArrowRight, ShieldCheck, HelpCircle, Minus, Plus
 import useCmsPage from "../hooks/useCmsPage";
 import CmsCustomBlock from "../components/CmsCustomBlock";
 import SeoHead from "../components/SeoHead";
+import { assetUrl } from "../api/client";
 
 export default function Cart() {
   const { items, removeItem, updateQuantity, clearCart } = useCartStore();
@@ -81,7 +82,7 @@ export default function Cart() {
               >
                 {/* Item Thumbnail */}
                 <div className="w-20 h-24 sm:w-24 sm:h-32 bg-stone-100 rounded-sm overflow-hidden flex-shrink-0">
-                  <img src={item.images?.[0]} alt={item.name} className="w-full h-full object-cover" />
+                  <img src={assetUrl(item.images?.[0])} alt={item.name} className="w-full h-full object-cover" />
                 </div>
 
                 {/* Item Info */}

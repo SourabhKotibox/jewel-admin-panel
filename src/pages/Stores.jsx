@@ -12,25 +12,19 @@ import {
   normalizeStoresSectionLayout,
 } from "../admin/data/storesCmsFields";
 
-function resolveImg(src) {
-  if (!src) return "";
-  if (/^https?:\/\//i.test(src) || src.startsWith("data:")) return src;
-  return assetUrl(src);
-}
-
 function buildStoresCms(raw = {}) {
   const flat = cmsStoresToFields(raw);
   const layout = extractStoresSectionLayout(raw);
   const structured = fieldsToCmsStores(flat, layout);
   return {
     ...structured,
-    heroImage: resolveImg(structured.heroImage),
-    ctaImage: resolveImg(structured.ctaImage),
+    heroImage: assetUrl(structured.heroImage),
+    ctaImage: assetUrl(structured.ctaImage),
     sectionLayout: {
       ...structured.sectionLayout,
       customSections: structured.sectionLayout.customSections.map((s) => ({
         ...s,
-        image: resolveImg(s.image),
+        image: assetUrl(s.image),
       })),
     },
   };
@@ -40,7 +34,7 @@ function normalizeStore(s) {
   return {
     ...s,
     id: String(s.id || s._id || s.city),
-    img: resolveImg(s.img),
+    img: assetUrl(s.img),
   };
 }
 
@@ -56,7 +50,7 @@ function CustomBlock({ data }) {
       >
         {hasImage && (
           <div className="aspect-[4/3] overflow-hidden rounded-sm bg-stone-100">
-            <img src={data.image} alt="" className="w-full h-full object-cover" />
+            <img src={assetUrl(data.image)} alt="" className="w-full h-full object-cover" />
           </div>
         )}
         <div>

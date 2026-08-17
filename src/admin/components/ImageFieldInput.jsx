@@ -4,12 +4,6 @@ import { assetUrl, uploadFile } from "../../api/client";
 import { OutlineButton, fieldClass, labelClass } from "./AdminUI";
 import { resolutionFor, aspectFor } from "../data/imageResolutionHints";
 
-function resolveImg(src) {
-  if (!src) return "";
-  if (/^https?:\/\//i.test(src) || src.startsWith("data:")) return src;
-  return assetUrl(src);
-}
-
 /**
  * Image field: paste a URL and/or upload via Multer.
  * Always shows recommended resolution under the label.
@@ -119,7 +113,7 @@ export default function ImageFieldInput({
 
       {value ? (
         <img
-          src={resolveImg(value)}
+          src={assetUrl(value)}
           alt=""
           className={`w-full max-w-xs sm:max-w-sm ${aspect} object-cover rounded-xl border border-champagne/15`}
         />
@@ -260,7 +254,7 @@ export function MultiImageFieldInput({
               className={`relative ${aspect} rounded-lg overflow-hidden border border-champagne/15 bg-stone-100`}
             >
               <img
-                src={resolveImg(src)}
+                src={assetUrl(src)}
                 alt=""
                 className="absolute inset-0 w-full h-full object-cover object-center"
               />

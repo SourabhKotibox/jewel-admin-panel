@@ -15,12 +15,6 @@ import { api, assetUrl } from "../../api/client";
 import notify from "../../utils/toast";
 import useSettingsStore from "../../store/useSettingsStore";
 
-function imgSrc(src) {
-  if (!src) return "";
-  if (/^https?:\/\//i.test(src) || src.startsWith("data:")) return src;
-  return assetUrl(src);
-}
-
 export default function OrderDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -243,7 +237,7 @@ export default function OrderDetail() {
               <li key={i} className="px-5 py-4 flex items-center gap-4">
                 {item.image ? (
                   <img
-                    src={imgSrc(item.image)}
+                     src={assetUrl(item.image)}
                     alt=""
                     className="w-14 h-14 rounded-lg object-cover bg-stone-100 shrink-0"
                   />

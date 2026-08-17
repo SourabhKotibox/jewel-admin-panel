@@ -29,12 +29,6 @@ const GATEWAY_META = [
   },
 ];
 
-function resolveImg(src) {
-  if (!src) return "";
-  if (/^https?:\/\//i.test(src) || src.startsWith("data:")) return src;
-  return assetUrl(src);
-}
-
 function loadRazorpayScript() {
   return new Promise((resolve) => {
     if (window.Razorpay) {
@@ -574,7 +568,7 @@ export default function Checkout() {
                   <div className="relative w-16 h-16 flex-shrink-0">
                     <div className="w-full h-full bg-stone-100 rounded-sm overflow-hidden">
                       <img
-                        src={resolveImg(item.images?.[0])}
+                        src={assetUrl(item.images?.[0])}
                         alt={item.name}
                         className="w-full h-full object-cover"
                       />

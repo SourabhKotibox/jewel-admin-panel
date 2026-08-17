@@ -7,12 +7,6 @@ import SeoHead from "../components/SeoHead";
 import { api, assetUrl } from "../api/client";
 import useSettingsStore from "../store/useSettingsStore";
 
-function resolveImg(src) {
-  if (!src) return "";
-  if (/^https?:\/\//i.test(src) || src.startsWith("data:")) return src;
-  return assetUrl(src);
-}
-
 function digitsOnly(v) {
   return String(v || "").replace(/\D/g, "");
 }
@@ -65,7 +59,7 @@ export default function Contact() {
       <div className="absolute inset-0">
         {c.heroImage ? (
           <img
-            src={resolveImg(c.heroImage)}
+            src={assetUrl(c.heroImage)}
             alt=""
             className="w-full h-full object-cover opacity-50 object-center"
           />
@@ -250,7 +244,7 @@ export default function Contact() {
         <div className="aspect-[4/5] overflow-hidden bg-stone-100 rounded-sm">
           {c.visitImage ? (
             <img
-              src={resolveImg(c.visitImage)}
+              src={assetUrl(c.visitImage)}
               alt=""
               className="w-full h-full object-cover"
             />

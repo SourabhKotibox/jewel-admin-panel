@@ -9,12 +9,6 @@ import {
   defaultLayoutFields,
 } from "../data/layoutCmsFields";
 
-function resolveImg(src) {
-  if (!src) return "";
-  if (/^https?:\/\//i.test(src) || src.startsWith("data:")) return src;
-  return assetUrl(src);
-}
-
 function humanize(key) {
   return key
     .replace(/([A-Z])/g, " $1")
@@ -75,7 +69,7 @@ function CollectionPreview({ groupId, fields, isMobile }) {
       >
         {fields.defaultBgImage ? (
           <img
-            src={resolveImg(fields.defaultBgImage)}
+            src={assetUrl(fields.defaultBgImage)}
             alt=""
             className="absolute inset-0 w-full h-full object-cover opacity-55"
           />
@@ -148,7 +142,7 @@ function ContactPreview({ groupId, fields, isMobile }) {
       >
         {fields.heroImage ? (
           <img
-            src={resolveImg(fields.heroImage)}
+            src={assetUrl(fields.heroImage)}
             alt=""
             className="absolute inset-0 w-full h-full object-cover opacity-50"
           />
@@ -201,7 +195,7 @@ function ContactPreview({ groupId, fields, isMobile }) {
     <div className={`p-6 grid gap-4 items-center ${isMobile ? "" : "grid-cols-2"}`}>
       {fields.visitImage ? (
         <img
-          src={resolveImg(fields.visitImage)}
+          src={assetUrl(fields.visitImage)}
           alt=""
           className="w-full h-36 object-cover rounded-sm"
         />
@@ -298,7 +292,7 @@ function LayoutPreview({ groupId, fields, isMobile }) {
             <div className="relative h-28 rounded-sm overflow-hidden bg-noir">
               {sample.featuredImage ? (
                 <img
-                  src={resolveImg(sample.featuredImage)}
+                  src={assetUrl(sample.featuredImage)}
                   alt=""
                   className="w-full h-full object-cover opacity-70"
                 />
@@ -344,7 +338,7 @@ function FieldPreview({ group, fields }) {
             </p>
             {isImg ? (
               <img
-                src={resolveImg(val)}
+                src={assetUrl(val)}
                 alt=""
                 className="w-full max-h-40 object-cover rounded-sm bg-stone-100"
               />

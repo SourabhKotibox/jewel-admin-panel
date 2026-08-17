@@ -24,11 +24,6 @@ import useSettingsStore, { resolveLogo } from "../store/useSettingsStore";
 import { api, assetUrl } from "../api/client";
 import { shopPath, toShopHref } from "../utils/shopLinks";
 
-function resolveImg(src) {
-  if (!src) return "";
-  if (/^https?:\/\//i.test(src) || src.startsWith("data:")) return src;
-  return assetUrl(src);
-}
 import {
   cmsLayoutToFields,
   fieldsToCmsLayout,
@@ -149,7 +144,7 @@ function MegaMenu({ menu, discoverLabel, collectionSuffix, onClose }) {
         <Link to={shopPath(menu.slug)} onClick={onClose} className="relative group overflow-hidden rounded-sm block h-56">
           {menu.featuredImage ? (
             <img
-              src={resolveImg(menu.featuredImage)}
+              src={assetUrl(menu.featuredImage)}
               alt={menu.label}
               className="w-full h-full object-cover transition-transform duration-750 group-hover:scale-105"
             />

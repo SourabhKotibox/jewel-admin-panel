@@ -6,13 +6,6 @@ import { assetUrl } from "../../api/client";
 import useCartStore from "../../store/useCartStore";
 import useWishlistStore from "../../store/useWishlistStore";
 
-function resolveImg(src) {
-  if (!src) return "";
-  if (/^https?:\/\//i.test(src) || src.startsWith("data:")) return src;
-  return assetUrl(src);
-}
-
-/** Product cards use a fixed 3:4 frame so Multer / URL images crop consistently */
 export const PRODUCT_CARD_ASPECT = "aspect-[3/4]";
 export const PRODUCT_IMAGE_HINT =
   "Recommended: 1200 × 1600 px (3:4 portrait). JPG or WebP, under 2 MB.";
@@ -35,7 +28,7 @@ export default function ProductCard({ product, image }) {
     tracksStock &&
     !(product.variants || []).length &&
     Number(product.stock) <= 0;
-  const src = resolveImg(image || product.images?.[0]);
+  const src = assetUrl(image || product.images?.[0]);
   const href = `/products/${product.slug || product.sku || id}`;
 
   const handleAdd = (e) => {
@@ -46,7 +39,7 @@ export default function ProductCard({ product, image }) {
       ...product,
       id,
       slug: product.slug || product.sku || id,
-      images: (product.images || []).map(resolveImg).filter(Boolean),
+      images: (product.images || []).map((img) => assetUrl(img)).filter(Boolean),
       stock: product.stock,
       manageStock: product.manageStock !== false,
     });
@@ -61,7 +54,7 @@ export default function ProductCard({ product, image }) {
       ...product,
       id,
       slug: product.slug || product.sku || id,
-      images: (product.images || []).map(resolveImg).filter(Boolean),
+      images: (product.images || []).map((img) => assetUrl(img)).filter(Boolean),
     });
   };
 

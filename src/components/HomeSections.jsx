@@ -22,6 +22,7 @@ import ProductCard from "./product/ProductCard";
 import CarouselNav, { carouselAutoplay } from "./CarouselNav";
 import useStorefrontStore from "../store/useStorefrontStore";
 import { shopPath, toShopHref } from "../utils/shopLinks";
+import { assetUrl } from "../api/client";
 
 function SectionHeading({ eyebrow, title, action, center = false }) {
   return (
@@ -852,7 +853,7 @@ function CustomContentSection({ data }) {
       >
         {hasImage && (
           <div className="aspect-[4/3] overflow-hidden rounded-sm bg-stone-100">
-            <img src={data.image} alt="" className="w-full h-full object-cover" />
+            <img src={assetUrl(data.image)} alt="" className="w-full h-full object-cover" />
           </div>
         )}
         <div className={hasImage ? "" : ""}>

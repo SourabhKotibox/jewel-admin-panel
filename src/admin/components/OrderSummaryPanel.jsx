@@ -4,13 +4,6 @@ import { formatPrice } from "../data/adminData";
 import { assetUrl } from "../../api/client";
 import { StatusBadge } from "./AdminUI";
 
-function imgSrc(src) {
-  if (!src) return "";
-  if (/^https?:\/\//i.test(src) || src.startsWith("data:")) return src;
-  return assetUrl(src);
-}
-
-/** Full associated order details beside chat / support */
 export default function OrderSummaryPanel({ order, loading }) {
   if (loading) {
     return (
@@ -98,7 +91,7 @@ export default function OrderSummaryPanel({ order, loading }) {
               <li key={i} className="flex items-center gap-2">
                 {item.image ? (
                   <img
-                    src={imgSrc(item.image)}
+                    src={assetUrl(item.image)}
                     alt=""
                     className="w-10 h-10 rounded-lg object-cover bg-stone-100 shrink-0"
                   />

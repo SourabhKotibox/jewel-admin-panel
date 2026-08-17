@@ -14,26 +14,20 @@ import {
 
 const ICONS = { ShieldCheck, Award, Heart, Sparkles };
 
-function resolveImg(src) {
-  if (!src) return "";
-  if (/^https?:\/\//i.test(src) || src.startsWith("data:")) return src;
-  return assetUrl(src);
-}
-
 function buildAboutCms(raw = {}) {
   const flat = cmsAboutToFields(raw);
   const layout = extractAboutSectionLayout(raw);
   const structured = fieldsToCmsAbout(flat, layout);
   return {
     ...structured,
-    heroImage: resolveImg(structured.heroImage),
-    craftImage: resolveImg(structured.craftImage),
-    polkiImage: resolveImg(structured.polkiImage),
+    heroImage: assetUrl(structured.heroImage),
+    craftImage: assetUrl(structured.craftImage),
+    polkiImage: assetUrl(structured.polkiImage),
     sectionLayout: {
       ...structured.sectionLayout,
       customSections: structured.sectionLayout.customSections.map((c) => ({
         ...c,
-        image: resolveImg(c.image),
+        image: assetUrl(c.image),
       })),
     },
   };
@@ -51,7 +45,7 @@ function CustomBlock({ data }) {
       >
         {hasImage && (
           <div className="aspect-[4/5] overflow-hidden rounded-sm bg-stone-100">
-            <img src={data.image} alt="" className="w-full h-full object-cover" />
+            <img src={assetUrl(data.image)} alt="" className="w-full h-full object-cover" />
           </div>
         )}
         <div>

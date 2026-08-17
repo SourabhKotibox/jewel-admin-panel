@@ -17,10 +17,16 @@ import useSettingsStore from "../store/useSettingsStore";
 import { useSelector } from "react-redux";
 import SeoHead from "../components/SeoHead";
 
-function resolveImg(src) {
-  if (!src) return "";
-  if (/^https?:\/\//i.test(src) || src.startsWith("data:")) return src;
-  return assetUrl(src);
+function normalizeProduct(p) {
+  return {
+    ...p,
+    id: p.sku || p.id || String(p._id),
+    slug: p.slug || p.sku,
+    images: (p.images || []).map((img) => assetUrl(img)).filter(Boolean),
+    attributes: p.attributes || p.specifications || {},
+    specifications: p.specifications || p.attributes || {},
+    variants: p.variants || [],
+  };
 }
 
 function Stars({ rating }) {
@@ -65,7 +71,7 @@ export default function ProductDetail() {
               ...p,
               id: p.sku || p.id || String(p._id),
               slug: p.slug || p.sku,
-              images: (p.images || []).map(resolveImg),
+               images: (p.images || []).map((img) => assetUrl(img)).filter(Boolean),
               attributes: p.attributes || p.specifications || {},
               specifications: p.specifications || p.attributes || {},
               variants: p.variants || [],
@@ -258,7 +264,7 @@ export default function ProductDetail() {
       <SeoHead
         title={product.name}
         description={product.description || `Shop ${product.name} at Madhu Jewellery.`}
-        image={resolveImg(activeImage || product.images?.[0])}
+        image={assetUrl(activeImage || product.images?.[0])}
         keywords={[product.name, product.category, product.tag, "Madhu jewellery"].filter(Boolean).join(", ")}
       />
       <div className="container-luxe py-12 md:py-20">

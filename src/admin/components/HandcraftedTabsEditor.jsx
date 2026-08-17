@@ -12,12 +12,6 @@ import { api, assetUrl } from "../../api/client";
 import { OutlineButton, PrimaryButton, fieldClass, labelClass } from "../components/AdminUI";
 import ImageFieldInput from "./ImageFieldInput";
 
-function resolveImg(src) {
-  if (!src) return "";
-  if (/^https?:\/\//i.test(src) || src.startsWith("data:")) return src;
-  return assetUrl(src);
-}
-
 /**
  * Admin editor: define home Handcrafted tabs, URL + Multer image, products.
  * Preview is handled by the parent section (shown only on Preview click).
@@ -311,7 +305,7 @@ export default function HandcraftedTabsEditor({ tabs, onChange, onSaveTab }) {
                       />
                       {p.images?.[0] ? (
                         <img
-                          src={resolveImg(p.images[0])}
+                           src={assetUrl(p.images[0])}
                           alt=""
                           className="w-10 h-10 rounded-lg object-cover shrink-0"
                         />

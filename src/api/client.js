@@ -26,7 +26,22 @@ export function getToken(portal = "admin") {
 
 export function assetUrl(path) {
   if (!path) return "";
-  if (/^https?:\/\//i.test(path)) return path;
+  if (/^https?:\/\//i.test(path)) {
+    try {
+      const url = new URL(path);
+      if (ORIGIN) {
+        const originUrl = new URL(ORIGIN);
+        if (url.pathname.startsWith("/uploads/") && url.hostname === originUrl.hostname) {
+          return `${ORIGIN}${url.pathname}${url.search}`;
+        }
+      }
+      return path;
+    } catch {
+      return path;
+    }
+  }
+  if (path.startsWith("data:")) return path;
+  if (!ORIGIN) return path;
   return `${ORIGIN}${path.startsWith("/") ? path : `/${path}`}`;
 }
 

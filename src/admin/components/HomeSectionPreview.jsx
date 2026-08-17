@@ -3,15 +3,6 @@ import { Monitor, Smartphone, ArrowRight } from "lucide-react";
 import { assetUrl } from "../../api/client";
 import { fieldsToCmsHome, defaultHandcraftedTabs } from "../data/homeCmsFields";
 
-function resolveImg(src) {
-  if (!src) return "";
-  if (/^https?:\/\//i.test(src) || src.startsWith("data:")) return src;
-  return assetUrl(src);
-}
-
-/**
- * Preview mirrors live HomeSections layout/aspect ratios so images crop the same way.
- */
 export default function HomeSectionPreview({
   groupId,
   fields = {},
@@ -196,7 +187,7 @@ function PreviewBody({ groupId, cms, tabs, productBySku, isMobile }) {
             {(cms.instagramImages || []).slice(0, 4).map((src, i) => (
               <div key={i} className="aspect-square overflow-hidden bg-stone-100">
                 {src ? (
-                  <img src={resolveImg(src)} alt="" className="w-full h-full object-cover" />
+                  <img src={assetUrl(src)} alt="" className="w-full h-full object-cover" />
                 ) : null}
               </div>
             ))}
@@ -228,7 +219,7 @@ function HeroPreview({ cms, isMobile }) {
         >
           {cms.heroImage ? (
             <img
-              src={resolveImg(cms.heroImage)}
+              src={assetUrl(cms.heroImage)}
               alt=""
               className="absolute inset-0 w-full h-full object-cover object-center"
             />
@@ -309,7 +300,7 @@ function BannersPreview({ cms, isMobile }) {
           >
             {banner.img ? (
               <img
-                src={resolveImg(banner.img)}
+                src={assetUrl(banner.img)}
                 alt={banner.title}
                 className="absolute inset-0 w-full h-full object-cover"
               />
@@ -351,7 +342,7 @@ function LegacyPreview({ cms, isMobile }) {
           <div className="aspect-[3/4] overflow-hidden rounded-sm relative bg-stone-200">
             {cms.brandStoryImage ? (
               <img
-                src={resolveImg(cms.brandStoryImage)}
+                src={assetUrl(cms.brandStoryImage)}
                 alt=""
                 className="w-full h-full object-cover"
               />
@@ -388,7 +379,7 @@ function HandcraftedPreview({ eyebrow, title, tabs, productBySku, isMobile }) {
     .map((tab) => ({
       key: tab.id || tab.label,
       label: tab.label,
-      img: resolveImg(tab.image),
+      img: assetUrl(tab.image),
       links: (tab.productSkus || []).map((sku) => {
         const p = productBySku(sku);
         return { sku, name: p?.name || sku, missing: !p };
@@ -483,7 +474,7 @@ function EditorialPreview({ cms, isMobile }) {
       <div className="absolute inset-0 bg-noir">
         {cms.editorialImage ? (
           <img
-            src={resolveImg(cms.editorialImage)}
+            src={assetUrl(cms.editorialImage)}
             alt=""
             className="w-full h-full object-cover object-center opacity-65"
           />
@@ -528,7 +519,7 @@ function CouturePreview({ cms, isMobile }) {
         >
           {cms.coutureImage ? (
             <img
-              src={resolveImg(cms.coutureImage)}
+              src={assetUrl(cms.coutureImage)}
               alt=""
               className="absolute inset-0 w-full h-full object-cover"
             />

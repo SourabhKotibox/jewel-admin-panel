@@ -3,6 +3,7 @@ import { X, Minus, Plus, Trash2, MessageCircle } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import useCartStore from "../../store/useCartStore";
 import { formatPrice, whatsappNumber } from "../../data";
+import { assetUrl } from "../../api/client";
 
 export default function CartDrawer() {
   const { items, isOpen, closeCart, removeItem, updateQuantity } = useCartStore();
@@ -61,7 +62,7 @@ export default function CartDrawer() {
                   {items.map((item) => (
                     <div key={item.id} className="flex gap-4 pb-5 border-b border-champagne/10">
                       <div className="w-20 h-24 bg-stone-100 rounded-sm overflow-hidden flex-shrink-0">
-                        <img src={item.images?.[0]} alt={item.name} className="w-full h-full object-cover" />
+                        <img src={assetUrl(item.images?.[0])} alt={item.name} className="w-full h-full object-cover" />
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex justify-between items-start gap-2">

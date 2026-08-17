@@ -1,16 +1,9 @@
 import { Link } from "react-router-dom";
 import { assetUrl } from "../api/client";
 
-function resolveImg(src) {
-  if (!src) return "";
-  if (/^https?:\/\//i.test(src) || src.startsWith("data:")) return src;
-  return assetUrl(src);
-}
-
-/** Shared custom CMS section used across storefront pages */
 export default function CmsCustomBlock({ data }) {
   if (!data || data.enabled === false) return null;
-  const image = resolveImg(data.image);
+  const image = assetUrl(data.image);
   const hasImage = Boolean(image);
 
   return (

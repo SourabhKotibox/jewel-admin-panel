@@ -6,18 +6,12 @@ import SeoHead from "../components/SeoHead";
 import { api, assetUrl } from "../api/client";
 import { formatPrice } from "../data";
 
-function resolveImg(src) {
-  if (!src) return "";
-  if (/^https?:\/\//i.test(src) || src.startsWith("data:")) return src;
-  return assetUrl(src);
-}
-
 function normalizeProduct(p) {
   return {
     ...p,
     id: p.sku || p.id || String(p._id),
     slug: p.slug || p.sku,
-    images: (p.images || []).map(resolveImg).filter(Boolean),
+    images: (p.images || []).map((img) => assetUrl(img)).filter(Boolean),
   };
 }
 
