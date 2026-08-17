@@ -156,17 +156,45 @@ export default function Products() {
               <tbody>
                 {filtered.map((p) => (
                   <tr key={p.id} className="border-b border-champagne/5 hover:bg-stone-50/80">
-                    <td className="px-4 py-3">
-                      <div className="w-12 aspect-[3/4] rounded-sm overflow-hidden bg-stone-100">
-                        {p.images?.[0] ? (
-                          <img
-                            src={resolveImg(p.images[0])}
-                            alt=""
-                            className="w-full h-full object-cover"
-                          />
-                        ) : null}
-                      </div>
-                    </td>
+                     <td className="px-4 py-3">
+                       <div className="flex items-center gap-1.5">
+                         {p.images?.[0] ? (
+                           <div className="relative w-12 aspect-[3/4] rounded-sm overflow-hidden bg-stone-100 flex-shrink-0">
+                             <img
+                               src={resolveImg(p.images[0])}
+                               alt=""
+                               className="w-full h-full object-cover"
+                             />
+                             <span className="absolute bottom-0.5 left-0.5 text-[7px] uppercase tracking-wider bg-noir/75 text-champagne px-1 rounded-sm">
+                               Cover
+                             </span>
+                           </div>
+                         ) : (
+                           <div className="w-12 aspect-[3/4] rounded-sm bg-stone-100 flex-shrink-0" />
+                         )}
+                         {p.images?.length > 1 && (
+                           <div className="flex flex-col gap-1">
+                             {p.images.slice(1, 3).map((src, i) => (
+                               <div
+                                 key={`${src}-${i}`}
+                                 className="w-8 aspect-[3/4] rounded-sm overflow-hidden bg-stone-100"
+                               >
+                                 <img
+                                   src={resolveImg(src)}
+                                   alt=""
+                                   className="w-full h-full object-cover"
+                                 />
+                               </div>
+                             ))}
+                             {p.images.length > 3 && (
+                               <div className="w-8 aspect-[3/4] rounded-sm bg-noir/60 text-champagne text-[9px] flex items-center justify-center font-mono">
+                                 +{p.images.length - 3}
+                               </div>
+                             )}
+                           </div>
+                         )}
+                       </div>
+                     </td>
                     <td className="px-4 py-3 font-mono text-xs">{p.id}</td>
                     <td className="px-4 py-3 font-medium text-noir">{p.name}</td>
                     <td className="px-4 py-3 text-noir/60">{p.category}</td>
