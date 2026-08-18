@@ -157,7 +157,7 @@ export default function Products() {
                              <img
                                 src={assetUrl(p.images[0])}
                                alt=""
-                               className="w-full h-full object-cover"
+                               className="absolute inset-0 w-full h-full object-cover"
                              />
                              <span className="absolute bottom-0.5 left-0.5 text-[7px] uppercase tracking-wider bg-noir/75 text-champagne px-1 rounded-sm">
                                Cover
@@ -171,12 +171,12 @@ export default function Products() {
                              {p.images.slice(1, 3).map((src, i) => (
                                <div
                                  key={`${src}-${i}`}
-                                 className="w-8 aspect-[3/4] rounded-sm overflow-hidden bg-stone-100"
+                                 className="relative w-8 aspect-[3/4] rounded-sm overflow-hidden bg-stone-100"
                                >
                                  <img
                                     src={assetUrl(src)}
                                    alt=""
-                                   className="w-full h-full object-cover"
+                                   className="absolute inset-0 w-full h-full object-cover"
                                  />
                                </div>
                              ))}

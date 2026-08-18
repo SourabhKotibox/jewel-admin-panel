@@ -66,6 +66,24 @@ export async function api(path, { method = "GET", body, token, portal = "admin",
 
   const data = await res.json().catch(() => ({}));
   if (!res.ok) {
+    if (res.status === 401) {
+      if (portal === "admin") {
+        localStorage.removeItem(TOKEN_KEYS.admin);
+        localStorage.removeItem(USER_KEYS.admin);
+        localStorage.removeItem(TOKEN_KEYS.legacy);
+        localStorage.removeItem(USER_KEYS.legacy);
+        if (window.location.pathname.startsWith("/admin") && window.location.pathname !== "/admin/login") {
+          window.location.href = "/admin/login";
+        }
+      } else {
+        localStorage.removeItem(TOKEN_KEYS.user);
+        localStorage.removeItem(USER_KEYS.user);
+        // User portal redirects to /account
+        if (!window.location.pathname.startsWith("/admin") && window.location.pathname !== "/account") {
+          window.location.href = "/account";
+        }
+      }
+    }
     const err = new Error(data.message || `Request failed (${res.status})`);
     err.status = res.status;
     err.data = data;

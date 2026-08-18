@@ -72,8 +72,12 @@ export function shopPath(slugOrLabel = "", extra = {}) {
     params.set("stock", "1");
   }
 
+  const isItemSpecific = /ring|bracelet|bangle|earring|top|choker|chain|neckless|necklace|pendent|pendant|set/i.test(raw);
+
   if (EXACT_CATEGORY[phrase]) {
     params.set("category", EXACT_CATEGORY[phrase]);
+  } else if ((phrase.startsWith("silver") || phrase.startsWith("silvergold")) && isItemSpecific) {
+    params.set("category", raw);
   } else if (phrase.includes("ring") && !phrase.includes("earring")) {
     params.set("category", "Rings");
   } else if (phrase.includes("necklace") || phrase.includes("choker") || phrase.includes("u necklace")) {

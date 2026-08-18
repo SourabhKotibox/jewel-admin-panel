@@ -5,11 +5,11 @@ export default defineConfig({
   plugins: [react()],
   base: "/jewel/",
   server: {
-    port: 5173,
+    port: 5174,
     proxy: {
-      "/api": { target: "http://localhost:5001", changeOrigin: true },
-      "/uploads": { target: "http://localhost:5001", changeOrigin: true },
-      "/socket.io": { target: "http://localhost:5001", ws: true, changeOrigin: true },
+      "/api": { target: "http://localhost:5002", changeOrigin: true },
+      "/uploads": { target: "http://localhost:5002", changeOrigin: true },
+      "/socket.io": { target: "http://localhost:5002", ws: true, changeOrigin: true },
     },
   },
 });

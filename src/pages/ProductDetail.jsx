@@ -53,6 +53,7 @@ export default function ProductDetail() {
   const [reviewErr, setReviewErr] = useState("");
   const [selectedVariantSku, setSelectedVariantSku] = useState("");
   const [catalog, setCatalog] = useState(fallbackProducts);
+  const [loading, setLoading] = useState(true);
   const { fields: c, isHidden, customSections } = useCmsPage("product");
 
   const { items, addItem, removeItem, openCart } = useCartStore();
@@ -80,6 +81,8 @@ export default function ProductDetail() {
         }
       } catch {
         /* keep fallback */
+      } finally {
+        if (!cancelled) setLoading(false);
       }
     })();
     return () => {
@@ -251,10 +254,20 @@ export default function ProductDetail() {
   };
 
   if (!product) {
+    if (loading) {
+      return (
+        <div className="container-luxe min-h-[60vh] flex items-center justify-center">
+          <div className="w-8 h-8 border-2 border-champagne border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      );
+    }
     return (
-      <div className="container-luxe py-24 text-center">
+      <div className="container-luxe py-24 text-center min-h-[60vh] flex flex-col items-center justify-center">
         <SeoHead title="Product not found" noIndex />
-        <p className="heading-display text-2xl text-noir">Product not found</p>
+        <p className="heading-display text-2xl text-noir mb-4">Product not found</p>
+        <button onClick={() => navigate('/shop')} className="btn-outline">
+          Return to Shop
+        </button>
       </div>
     );
   }
