@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { Plus, Pencil, Trash2, Eye, FileDown } from "lucide-react";
+import { Plus, Pencil, Trash2, Eye, EyeOff, FileDown } from "lucide-react";
 import { formatPrice } from "../data/adminData";
 import {
   AdminCard,
@@ -65,6 +65,18 @@ export default function Products() {
     const matchesCat = category === "All" || p.category === category;
     return matchesQuery && matchesCat;
   });
+
+  const toggleStatus = async (id, currentStatus) => {
+    const nextStatus = currentStatus === "Active" ? "Draft" : "Active";
+    try {
+      await api(`/products/${id}`, { method: "PUT", body: { status: nextStatus }, portal: "admin" });
+      setItems((prev) =>
+        prev.map((p) => (p.id === id ? { ...p, status: nextStatus } : p))
+      );
+    } catch (err) {
+      alert(err.message || "Status update failed");
+    }
+  };
 
   const remove = async (id) => {
     if (!window.confirm("Remove this product from the catalogue?")) return;
@@ -198,14 +210,14 @@ export default function Products() {
                     <td className="px-4 py-3 text-right">{formatPrice(p.price)}</td>
                     <td className="px-4 py-3">
                       <div className="flex justify-end gap-2">
-                        <Link
-                          to={`/products/${p.slug || p.id}`}
-                          target="_blank"
-                          className="p-2 text-noir/40 hover:text-noir"
-                          title="View"
+                        <button
+                          type="button"
+                          onClick={() => toggleStatus(p.id, p.status || "Active")}
+                          className={`p-2 hover:text-noir ${p.status === "Draft" ? "text-rose-500" : "text-emerald-600"}`}
+                          title={p.status === "Draft" ? "Hidden (Click to show)" : "Active (Click to hide)"}
                         >
-                          <Eye size={16} />
-                        </Link>
+                          {p.status === "Draft" ? <EyeOff size={16} /> : <Eye size={16} />}
+                        </button>
                         <Link
                           to={`/admin/products/${p.id}`}
                           className="p-2 text-noir/40 hover:text-champagne-dark"

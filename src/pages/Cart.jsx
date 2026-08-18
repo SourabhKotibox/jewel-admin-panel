@@ -115,7 +115,7 @@ export default function Cart() {
                     <div className="flex items-center gap-3">
                       <button
                         onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                        className="w-7 h-7 flex items-center justify-center border border-champagne/30 rounded-full hover:border-champagne transition-colors"
+                        className="w-8 h-8 flex items-center justify-center border border-champagne/30 rounded-full hover:border-champagne transition-colors"
                         aria-label="Decrease quantity"
                       >
                         <Minus size={13} />
@@ -126,7 +126,7 @@ export default function Cart() {
                         disabled={
                           maxQtyFor(item) !== Infinity && item.quantity >= maxQtyFor(item)
                         }
-                        className="w-7 h-7 flex items-center justify-center border border-champagne/30 rounded-full hover:border-champagne transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                        className="w-8 h-8 flex items-center justify-center border border-champagne/30 rounded-full hover:border-champagne transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                         aria-label="Increase quantity"
                       >
                         <Plus size={13} />

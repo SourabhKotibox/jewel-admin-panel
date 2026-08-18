@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { X, Minus, Plus, Trash2, MessageCircle } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
-import useCartStore from "../../store/useCartStore";
+import useCartStore, { maxQtyFor } from "../../store/useCartStore";
 import { formatPrice, whatsappNumber } from "../../data";
 import { assetUrl } from "../../api/client";
 
@@ -77,7 +77,7 @@ export default function CartDrawer() {
                         <div className="flex items-center gap-3 mt-3">
                           <button
                             onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                            className="w-7 h-7 flex items-center justify-center border border-champagne/30 rounded-full hover:border-champagne transition-colors"
+                            className="w-8 h-8 flex items-center justify-center border border-champagne/30 rounded-full hover:border-champagne transition-colors"
                             aria-label="Decrease quantity"
                           >
                             <Minus size={13} />
@@ -85,7 +85,8 @@ export default function CartDrawer() {
                           <span className="text-sm font-medium text-noir w-4 text-center">{item.quantity}</span>
                           <button
                             onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                            className="w-7 h-7 flex items-center justify-center border border-champagne/30 rounded-full hover:border-champagne transition-colors"
+                            disabled={maxQtyFor(item) !== Infinity && item.quantity >= maxQtyFor(item)}
+                            className="w-8 h-8 flex items-center justify-center border border-champagne/30 rounded-full hover:border-champagne transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                             aria-label="Increase quantity"
                           >
                             <Plus size={13} />
