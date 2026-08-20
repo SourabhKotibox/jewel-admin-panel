@@ -81,8 +81,8 @@ export default function ShopFilter() {
       try {
         const meta = await api("/catalog/meta");
         if (cancelled || !meta?.categories?.length) return;
-        const parents = meta.categories.filter((c) => !c.parentId);
-        const kids = meta.categories.filter((c) => c.parentId);
+        const parents = meta.categories.filter((c) => !c.parentId && !c.hidden);
+        const kids = meta.categories.filter((c) => c.parentId && !c.hidden);
         const ordered = ["All"];
         for (const p of parents) {
           ordered.push(p.name);

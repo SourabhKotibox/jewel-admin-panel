@@ -34,6 +34,7 @@ export default function CrudPage({ entityKey, ...override }) {
     editPath,
     pdfKeys,
     pdfHeaders,
+    extraActions,
   } = cfg;
 
   const toEdit = (id) =>
@@ -194,25 +195,26 @@ export default function CrudPage({ entityKey, ...override }) {
                         </div>
                       ))}
                     </div>
-                    {canWrite ? (
-                      <div className="flex items-center gap-0.5 shrink-0">
-                        <Link
-                          to={toEdit(row.id)}
-                          className="p-2 rounded-xl text-noir/40 hover:text-champagne-dark hover:bg-champagne/10"
-                          title="Edit"
-                        >
-                          <Pencil size={15} />
-                        </Link>
-                        <button
-                          type="button"
-                          onClick={() => remove(row.id)}
-                          className="p-2 rounded-xl text-noir/40 hover:text-rose-600 hover:bg-rose-50"
-                          title="Delete"
-                        >
-                          <Trash2 size={15} />
-                        </button>
-                      </div>
-                    ) : null}
+                     {canWrite ? (
+                       <div className="flex items-center gap-0.5 shrink-0">
+                         {extraActions?.(row, entityKey)}
+                         <Link
+                           to={toEdit(row.id)}
+                           className="p-2 rounded-xl text-noir/40 hover:text-champagne-dark hover:bg-champagne/10"
+                           title="Edit"
+                         >
+                           <Pencil size={15} />
+                         </Link>
+                         <button
+                           type="button"
+                           onClick={() => remove(row.id)}
+                           className="p-2 rounded-xl text-noir/40 hover:text-rose-600 hover:bg-rose-50"
+                           title="Delete"
+                         >
+                           <Trash2 size={15} />
+                         </button>
+                       </div>
+                     ) : null}
                   </div>
                   <dl className="grid grid-cols-2 gap-x-3 gap-y-2 text-xs">
                     {secondaryCols.map((col) => (
@@ -276,6 +278,7 @@ export default function CrudPage({ entityKey, ...override }) {
                         <div className="flex items-center justify-end gap-1">
                           {canWrite ? (
                             <>
+                              {extraActions?.(row, entityKey, { toggleHidden })}
                               <Link
                                 to={toEdit(row.id)}
                                 className="p-2 rounded-xl text-noir/40 hover:text-champagne-dark hover:bg-champagne/10"

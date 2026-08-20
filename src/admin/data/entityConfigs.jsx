@@ -16,7 +16,7 @@ import {
   cmsPages,
   adminUsers,
 } from "../data/bagistoData";
-import { Star, BookOpen, Percent, Shield } from "lucide-react";
+import { Star, BookOpen, Percent, Shield, Eye, EyeOff } from "lucide-react";
 import { assetUrl } from "../../api/client";
 
 function thumbSrc(src) {
@@ -689,6 +689,7 @@ export const entityConfigs = {
       { key: "img", label: "Category image", full: true, type: "image" },
       { key: "productCount", label: "Product Count", type: "number" },
       { key: "status", label: "Status", type: "select", options: ["Active", "Draft"] },
+      { key: "hidden", label: "Hidden", type: "checkbox", checkLabel: "Hidden from storefront" },
     ],
     columns: [
       {
@@ -707,6 +708,7 @@ export const entityConfigs = {
       },
       { key: "slug", label: "Slug", hide: "sm", render: (r) => <span className="font-mono text-xs">{r.slug}</span> },
       { key: "productCount", label: "Products", hide: "md" },
+      { key: "hidden", label: "Hidden", badge: true },
     ],
   },
   "jewelry-types": {

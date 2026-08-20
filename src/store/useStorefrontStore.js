@@ -31,6 +31,10 @@ function normalizeCategory(c) {
   };
 }
 
+function isHiddenCategory(c) {
+  return c.hidden === true;
+}
+
 function normalizeStore(s) {
   return {
     ...s,
@@ -109,7 +113,9 @@ const useStorefrontStore = create((set) => ({
 
       set({
         products: (Array.isArray(products) ? products : []).map(normalizeProduct),
-        categories: (Array.isArray(categories) ? categories : []).map(normalizeCategory),
+        categories: (Array.isArray(categories) ? categories : [])
+          .filter((c) => !isHiddenCategory(c))
+          .map(normalizeCategory),
         stores: (Array.isArray(stores) ? stores : []).map(normalizeStore),
         testimonials: (Array.isArray(testimonials) ? testimonials : []).map(normalizeTestimonial),
         cms: buildCms(cmsRaw),
