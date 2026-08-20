@@ -278,7 +278,7 @@ export default function CrudPage({ entityKey, ...override }) {
                         <div className="flex items-center justify-end gap-1">
                           {canWrite ? (
                             <>
-                              {extraActions?.(row, entityKey, { toggleHidden })}
+                              {extraActions?.(row, entityKey)}
                               <Link
                                 to={toEdit(row.id)}
                                 className="p-2 rounded-xl text-noir/40 hover:text-champagne-dark hover:bg-champagne/10"
